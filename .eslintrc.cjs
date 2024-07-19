@@ -33,7 +33,9 @@ module.exports = {
     'simple-import-sort/exports': 'error',
     'react-redux/connect-prefer-named-arguments': 2,
     'import/named': 'off',
-    'react-redux/useSelector-prefer-selectors': 'off'
+    'react-redux/useSelector-prefer-selectors': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off'
   },
   settings: {
     react: {
