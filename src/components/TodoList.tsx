@@ -1,19 +1,17 @@
-import { memo, useMemo } from 'react'
-
-import { useTodo } from '../hooks/useTodo'
+import React from 'react'
+import { nanoid } from '@reduxjs/toolkit'
 
 import TodoItem from './TodoItem'
 
-import styles from './TodoList.module.css'
-
-const TodoList = () => {
-  const { state } = useTodo()
-
-  const todoItems = useMemo(() => {
-    return state.todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)
-  }, [state.todos])
-
-  return <div className={styles.container}>{todoItems}</div>
+const TodoList: React.FC = () => {
+  return (
+    <div>
+      // TODO: Получить массив через useSelector
+      {[].map((todo) => (
+        <TodoItem key={nanoid()} todo={todo} />
+      ))}
+    </div>
+  )
 }
 
-export default memo(TodoList)
+export default TodoList

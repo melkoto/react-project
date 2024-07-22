@@ -1,34 +1,14 @@
-import { memo, useCallback, useState } from 'react'
+import React, { useState } from 'react'
 
-import { useTodo } from '../hooks/useTodo'
-
-import styles from './AddTodo.module.css'
-
-const AddTodo = () => {
-  const [text, setText] = useState('')
-  const { dispatch } = useTodo()
-
-  const handleAddTodo = useCallback(() => {
-    if (text.trim()) {
-      dispatch({ type: 'ADD_TODO', payload: text })
-      setText('')
-    }
-  }, [text, dispatch])
+const AddTodo: React.FC = () => {
+  const [title, setTitle] = useState('')
 
   return (
-    <div className={styles.container}>
-      <input
-        type="text"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Add new todo"
-        className={styles.input}
-      />
-      <button onClick={handleAddTodo} className={styles.button}>
-        Add
-      </button>
-    </div>
+    <form>
+      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Add new todo" />
+      <button type="submit">Add Todo</button>
+    </form>
   )
 }
 
-export default memo(AddTodo)
+export default AddTodo

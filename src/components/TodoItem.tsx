@@ -1,51 +1,31 @@
-import { FC, memo, useCallback, useState } from 'react'
+import React, { useState } from 'react'
 
-import { useTodo } from '../hooks/useTodo'
-import { Todo } from '../types/todo'
-
-import styles from './TodoItem.module.css'
+import { Todo } from '../types/todo.ts'
 
 interface TodoItemProps {
   todo: Todo
 }
 
-const TodoItem: FC<TodoItemProps> = ({ todo }) => {
-  const { dispatch } = useTodo()
+const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const [isEditing, setIsEditing] = useState(false)
-  const [newText, setNewText] = useState(todo.text)
-
-  const handleEdit = useCallback(() => {
-    if (isEditing && newText.trim()) {
-      dispatch({ type: 'EDIT_TODO', payload: { id: todo.id, text: newText } })
-    }
-    setIsEditing(!isEditing)
-  }, [isEditing, newText, dispatch, todo.id])
-
-  const handleToggle = useCallback(() => {
-    dispatch({ type: 'TOGGLE_TODO', payload: todo.id })
-  }, [dispatch, todo.id])
-
-  const handleRemove = useCallback(() => {
-    dispatch({ type: 'REMOVE_TODO', payload: todo.id })
-  }, [dispatch, todo.id])
+  const [editTitle, setEditTitle] = useState(todo.title)
 
   return (
-    <div className={styles.container}>
+    <div>
       {isEditing ? (
-        <input type="text" value={newText} onChange={(e) => setNewText(e.target.value)} className={styles.input} />
+        <input type="text" value={editTitle} onChange={(e) => setEditTitle(e.target.value)} />
       ) : (
-        <span className={`${styles.text} ${todo.completed ? styles.completed : ''}`} onClick={handleToggle}>
-          {todo.text}
+        <span
+          style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+          onDoubleClick={() => setIsEditing(true)}
+        >
+          {todo.title}
         </span>
       )}
-      <button onClick={handleEdit} className={styles.button}>
-        {isEditing ? 'Save' : 'Edit'}
-      </button>
-      <button onClick={handleRemove} className={styles.button}>
-        Remove
-      </button>
+      <button>{todo.completed ? 'Undo' : 'Complete'}</button>
+      <button>Delete</button>
     </div>
   )
 }
 
-export default memo(TodoItem)
+export default TodoItem
