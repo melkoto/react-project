@@ -5,8 +5,16 @@ const AddTodo: React.FC = () => {
 
   return (
     <form>
-      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Add new todo" />
-      <button type="submit">Add Todo</button>
+      <input
+        style={{ marginRight: '10px' }}
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Add new todo"
+      />
+      <button type="submit" style={{ background: 'blue', color: 'white' }}>
+        Add Todo
+      </button>
     </form>
   )
 }

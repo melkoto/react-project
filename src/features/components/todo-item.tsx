@@ -27,13 +27,15 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
       ) : (
         <span
           style={{ textDecoration: todo.completed ? 'line-through' : 'none', marginRight: '10px' }}
-          onDoubleClick={() => setIsEditing(true)}
+          onDoubleClick={() => !todo.completed && setIsEditing(true)}
         >
           {todo.title}
         </span>
       )}
-      <button style={{ marginRight: '10px' }}>{todo.completed ? 'Undo' : 'Complete'}</button>
-      <button>Delete</button>
+      <button style={{ marginRight: '10px', backgroundColor: 'green', color: 'white' }}>
+        {todo.completed ? 'Undo' : 'Complete'}
+      </button>
+      <button style={{ backgroundColor: 'red', color: 'white' }}>Delete</button>
     </div>
   )
 }
