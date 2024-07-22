@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
+import { useAppDispatch } from '../../hooks/redux.ts'
 import { Todo } from '../../types/todo.ts'
+import { deleteTodo, editTodo, toggleTodo } from '../reducers/todo-slice.ts'
 
 interface TodoItemProps {
   todo: Todo
@@ -10,8 +12,19 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [editTitle, setEditTitle] = useState(todo.title)
 
+  const dispatch = useAppDispatch()
+
   const handleUpdate = () => {
+    dispatch(editTodo({ id: todo.id, title: editTitle }))
     setIsEditing(false)
+  }
+
+  const handleToggle = () => {
+    dispatch(toggleTodo(todo.id))
+  }
+
+  const handleDelete = () => {
+    dispatch(deleteTodo(todo.id))
   }
 
   return (
@@ -32,10 +45,12 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           {todo.title}
         </span>
       )}
-      <button style={{ marginRight: '10px', backgroundColor: 'green', color: 'white' }}>
+      <button onClick={handleToggle} style={{ marginRight: '10px', backgroundColor: 'green', color: 'white' }}>
         {todo.completed ? 'Undo' : 'Complete'}
       </button>
-      <button style={{ backgroundColor: 'red', color: 'white' }}>Delete</button>
+      <button onClick={handleDelete} style={{ backgroundColor: 'red', color: 'white' }}>
+        Delete
+      </button>
     </div>
   )
 }

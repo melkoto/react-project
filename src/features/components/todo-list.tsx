@@ -1,15 +1,12 @@
 import React from 'react'
 
-import { Todo } from '../../types/todo.ts'
+import { useAppSelector } from '../../hooks/redux.ts'
 
 import TodoItem from './todo-item.tsx'
 
 const TodoList: React.FC = () => {
-  // TODO: Получить массив через useSelector
-  const todos: Todo[] = [
-    { id: 1, title: 'Todo 1', completed: false },
-    { id: 2, title: 'Todo 2', completed: true },
-  ]
+  // const todos = useSelector((state: RootState) => state.todos.todos)
+  const todos = useAppSelector((state) => state.todos.todos)
 
   return (
     <div>
