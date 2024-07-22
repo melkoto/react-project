@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Todo } from '../../types/todo.ts'
+import { Todo } from '../../../types/todo.ts'
 
 import TodoItem from './todo-item.tsx'
 
