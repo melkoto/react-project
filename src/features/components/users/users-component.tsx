@@ -1,45 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux.ts'
 import { User } from '../../../types/user.ts'
-import { createUser, deleteUser, fetchUsers, updateUser } from '../../reducers/user-slice.ts'
 
 const UsersComponent: React.FC = () => {
-  const dispatch = useAppDispatch()
-  const { users, loading, error } = useAppSelector((state) => state.users)
-
   const [newUser, setNewUser] = useState<Omit<User, 'id'>>({
     name: '',
     email: '',
   })
 
-  useEffect(() => {
-    dispatch(fetchUsers())
-  }, [dispatch])
-
-  const handleCreateUser = () => {
-    dispatch(createUser(newUser as User))
-      .unwrap()
-      .then(() => {
-        setNewUser({
-          name: '',
-          email: '',
-        })
-      })
-  }
-
-  const handleUpdateUser = (user: User) => {
-    dispatch(
-      updateUser({
-        ...user,
-        name: user.name + ' Updated',
-      }),
-    )
-  }
-
-  const handleDeleteUser = (id: number) => {
-    dispatch(deleteUser(id))
-  }
+  // TODO: Replace with real data
+  const users = [
+    { id: 1, name: 'John Doe', email: 'john@doe.com' },
+    { id: 2, name: 'Jane Doe', email: 'jane@doe.com' },
+  ]
+  const loading = true
+  const error = null
 
   return (
     <div>
@@ -51,12 +26,8 @@ const UsersComponent: React.FC = () => {
           <li key={user.id}>
             <h2>{user.name}</h2>
             <p>{user.email}</p>
-            <button onClick={() => handleUpdateUser(user)} disabled={loading}>
-              Update
-            </button>
-            <button onClick={() => handleDeleteUser(user.id)} disabled={loading}>
-              Delete
-            </button>
+            <button disabled={loading}>Update</button>
+            <button disabled={loading}>Delete</button>
           </li>
         ))}
       </ul>
@@ -73,9 +44,7 @@ const UsersComponent: React.FC = () => {
         onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
         placeholder="Email"
       />
-      <button onClick={handleCreateUser} disabled={loading}>
-        Add User
-      </button>
+      <button disabled={loading}>Add User</button>
     </div>
   )
 }
