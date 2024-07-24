@@ -1,6 +1,14 @@
 import React, { useState } from 'react'
+import { SerializedError } from '@reduxjs/toolkit'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
-import { User } from '../../../types/user.ts'
+import { User } from '../../../types/user'
+import {
+  useAddUserMutation,
+  useDeleteUserMutation,
+  useGetUsersQuery,
+  useUpdateUserMutation,
+} from '../../reducers/user-slice'
 
 const UsersComponent: React.FC = () => {
   const [newUser, setNewUser] = useState<Omit<User, 'id'>>({
@@ -8,26 +16,63 @@ const UsersComponent: React.FC = () => {
     email: '',
   })
 
-  // TODO: Replace with real data
-  const users = [
-    { id: 1, name: 'John Doe', email: 'john@doe.com' },
-    { id: 2, name: 'Jane Doe', email: 'jane@doe.com' },
-  ]
-  const loading = true
-  const error = null
+  const { data: users, error: usersError, isLoading: isUsersLoading } = useGetUsersQuery()
+  const [addUser, { isLoading: isAdding }] = useAddUserMutation()
+  const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation()
+  const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation()
+
+  const handleAddUser = async () => {
+    try {
+      await addUser(newUser).unwrap()
+      setNewUser({ name: '', email: '' })
+    } catch (error) {
+      console.error('Failed to add user: ', error)
+    }
+  }
+
+  const handleUpdateUser = async (id: number) => {
+    try {
+      await updateUser({ id, name: `Updated ${newUser.name}`, email: newUser.email }).unwrap()
+    } catch (error) {
+      console.error('Failed to update user: ', error)
+    }
+  }
+
+  const handleDeleteUser = async (id: number) => {
+    try {
+      await deleteUser(id).unwrap()
+    } catch (error) {
+      console.error('Failed to delete user: ', error)
+    }
+  }
+
+  const renderError = (error: FetchBaseQueryError | SerializedError) => {
+    if ('status' in error) {
+      return (
+        <p>
+          Error: {error.status} - {JSON.stringify(error.data)}
+        </p>
+      )
+    }
+    return <p>{error.message}</p>
+  }
 
   return (
     <div>
       <h1>User List</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+      {isUsersLoading && <p>Loading...</p>}
+      {usersError && renderError(usersError)}
       <ul>
-        {users.map((user) => (
+        {users?.map((user: User) => (
           <li key={user.id}>
             <h2>{user.name}</h2>
             <p>{user.email}</p>
-            <button disabled={loading}>Update</button>
-            <button disabled={loading}>Delete</button>
+            <button onClick={() => handleUpdateUser(user.id)} disabled={isUpdating}>
+              Update
+            </button>
+            <button onClick={() => handleDeleteUser(user.id)} disabled={isDeleting}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>
@@ -44,7 +89,10 @@ const UsersComponent: React.FC = () => {
         onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
         placeholder="Email"
       />
-      <button disabled={loading}>Add User</button>
+      <button onClick={handleAddUser} disabled={isAdding}>
+        Add User
+      </button>
+      {isAdding && <p>Adding user...</p>}
     </div>
   )
 }
