@@ -2,7 +2,10 @@ version: '3.9'
 
 services:
   react-app:
+    build:
+      context: .
     ports:
       - "80:80"
     environment:
-      - NODE_ENV=production
+      NODE_ENV: production
+    restart: unless-stopped
