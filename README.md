@@ -2,6 +2,11 @@
 
 ## Prod
 
+### Переключиться на ветку
+```bash
+git checkout rtk-query-users-template
+```
+
 ### Добавить .env файл
 
 ```bash
