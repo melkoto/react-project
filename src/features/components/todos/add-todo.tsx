@@ -21,7 +21,7 @@ const AddTodo = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
       <input
         style={{ marginRight: '10px' }}
         type="text"

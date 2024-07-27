@@ -1,14 +1,18 @@
-import { useEffect } from 'react'
-import { Navigate, Outlet } from 'react-router-dom'
+import { ReactNode, useEffect } from 'react'
+import { Navigate } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux.ts'
 import { useFetchUserQuery } from '../../reducers/auth-api-slice'
 import { setLoading } from '../../reducers/auth-slice'
 
-const ProtectedRoutes = () => {
+interface ProtectedRouteProps {
+  children: ReactNode
+}
+
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const dispatch = useAppDispatch()
   const { user, loading } = useAppSelector((state) => state.auth)
-  const { isLoading, isError } = useFetchUserQuery()
+  const { isLoading } = useFetchUserQuery()
 
   useEffect(() => {
     dispatch(setLoading(isLoading))
@@ -18,11 +22,11 @@ const ProtectedRoutes = () => {
     return <div>Loading...</div>
   }
 
-  if (isError) {
-    return <Navigate to="/login" />
+  if (!user) {
+    return <Navigate to="/auth" />
   }
 
-  return user ? <Outlet /> : <Navigate to="/login" />
+  return <>{children}</>
 }
 
-export default ProtectedRoutes
+export default ProtectedRoute
