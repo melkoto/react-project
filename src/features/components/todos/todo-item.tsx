@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { useAppSelector } from '../../../hooks/redux'
 import { Todo } from '../../../types/todo'
 import { useDeleteTodoMutation, useUpdateTodoMutation } from '../../reducers/todo-api-slice'
 
@@ -12,12 +13,14 @@ const TodoItem = ({ todo }: TodoItemProps) => {
   const [editTitle, setEditTitle] = useState(todo.title)
   const [updateTodo] = useUpdateTodoMutation()
   const [deleteTodo] = useDeleteTodoMutation()
+  const user = useAppSelector((state) => state.auth.user)
 
   const handleUpdate = async () => {
     if (editTitle.trim() && editTitle !== todo.title) {
       await updateTodo({
         id: todo.id,
         title: editTitle,
+        userId: user?.id,
       }).unwrap()
     }
     setIsEditing(false)
@@ -48,7 +51,7 @@ const TodoItem = ({ todo }: TodoItemProps) => {
       <button
         style={{ marginRight: '10px', backgroundColor: 'green', color: 'white' }}
         onClick={async () => {
-          await updateTodo({ id: todo.id, completed: !todo.completed })
+          await updateTodo({ id: todo.id, completed: !todo.completed, userId: user?.id }).unwrap()
         }}
       >
         {todo.completed ? 'Undo' : 'Complete'}
