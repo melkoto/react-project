@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 
-import AuthPage from './features/components/auth/auth-page-component'
+import AuthPage from './features/components/auth/auth-page-component.tsx'
 import Login from './features/components/auth/login-component'
 import ProtectedRoute from './features/components/auth/protected-route'
 import Register from './features/components/auth/register-component'
@@ -17,10 +17,13 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route
-            path="/"
+            path="/*"
             element={
               <ProtectedRoute>
-                <Home />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  {/* Другие защищенные маршруты можно добавить здесь */}
+                </Routes>
               </ProtectedRoute>
             }
           />

@@ -1,13 +1,12 @@
-// reducers/todo-api-slice.ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import { Todo } from '../../types/todo'
 
-export const todoApiSlice = createApi({
+export const apiTodoSlice = createApi({
   reducerPath: 'apiTodos',
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_BASE_URL,
-    credentials: 'include', // Include credentials for cookie-based auth
+    credentials: 'include',
   }),
   tagTypes: ['Todo'],
   endpoints: (builder) => ({
@@ -47,4 +46,4 @@ export const todoApiSlice = createApi({
   }),
 })
 
-export const { useGetTodosQuery, useAddTodoMutation, useUpdateTodoMutation, useDeleteTodoMutation } = todoApiSlice
+export const { useGetTodosQuery, useAddTodoMutation, useUpdateTodoMutation, useDeleteTodoMutation } = apiTodoSlice
