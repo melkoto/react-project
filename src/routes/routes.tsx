@@ -14,7 +14,7 @@ export const routes: RouteConfig[] = [
   { path: '/login', element: <LazyLogin /> },
   { path: '/register', element: <LazyRegister /> },
   { path: '/auth', element: <LazyAuthPage /> },
-  { path: '/', element: <LazyHome />, protected: true },
+  { path: '/', element: <LazyHome /> },
 ]
 
 export const generateRoutes = (routes: RouteConfig[]) => {

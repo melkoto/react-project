@@ -1,8 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 import { User } from '../../types/user.ts'
-
-import { apiAuthSlice } from './auth-api-slice.ts'
 
 interface AuthState {
   user: User | null
@@ -17,32 +15,10 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    setUser: (state, action: PayloadAction<User>) => {
-      state.user = action.payload
-      state.loading = false
-    },
-    clearUser: (state) => {
-      state.user = null
-      state.loading = false
-    },
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload
-    },
-  },
-  extraReducers: (builder) => {
-    builder.addMatcher(apiAuthSlice.endpoints.fetchUser.matchPending, (state) => {
-      state.loading = true
-    })
-    builder.addMatcher(apiAuthSlice.endpoints.fetchUser.matchFulfilled, (state, { payload }) => {
-      state.user = payload
-      state.loading = false
-    })
-    builder.addMatcher(apiAuthSlice.endpoints.fetchUser.matchRejected, (state) => {
-      state.loading = false
-    })
-  },
+  reducers: {},
+  extraReducers: () => {},
 })
 
-export const { setUser, clearUser, setLoading } = authSlice.actions
+// eslint-disable-next-line no-empty-pattern
+export const {} = authSlice.actions
 export default authSlice.reducer

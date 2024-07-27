@@ -1,19 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-
-import { useLoginMutation } from '../../features/auth/auth-api-slice.ts'
-import { setUser } from '../../features/auth/auth-slice.ts'
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   })
-
-  const [login] = useLoginMutation()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -25,24 +16,18 @@ const Login = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    try {
-      const user = await login(formData).unwrap()
-      dispatch(setUser(user))
-      navigate('/')
-    } catch (err) {
-      console.error('Failed to login:', err)
-    }
+    console.log('handleSubmit')
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="email">Email</label>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} />
+        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} />
       </div>
       <div>
         <label htmlFor="password">Password</label>
-        <input type="password" name="password" value={formData.password} onChange={handleChange} />
+        <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} />
       </div>
       <button type="submit">Login</button>
     </form>
