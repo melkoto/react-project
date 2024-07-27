@@ -1,12 +1,12 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAppDispatch } from '../../../hooks/redux.ts'
-import { useLogoutMutation } from '../../reducers/auth-api-slice.ts'
-import { clearUser } from '../../reducers/auth-slice.ts'
-import UsersComponent from '../users/users-component'
+import { useAppDispatch } from '../../../hooks/redux'
+import { useLogoutMutation } from '../../reducers/auth-api-slice'
+import { clearUser } from '../../reducers/auth-slice'
+import AddTodo from '../todos/add-todo'
+import TodoList from '../todos/todo-list'
 
-const Home: React.FC = () => {
+const Home = () => {
   const [logout] = useLogoutMutation()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -25,7 +25,8 @@ const Home: React.FC = () => {
     <div>
       <h1>Welcome to Home Page</h1>
       <button onClick={handleLogout}>Logout</button>
-      <UsersComponent />
+      <AddTodo />
+      <TodoList />
     </div>
   )
 }

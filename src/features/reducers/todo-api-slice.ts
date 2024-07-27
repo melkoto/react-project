@@ -1,0 +1,54 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+import { Todo } from '../../types/todo'
+
+export const todoApiSlice = createApi({
+  reducerPath: 'apiTodo',
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_API_BASE_URL,
+    credentials: 'include',
+  }),
+  tagTypes: ['Todo'],
+  endpoints: (builder) => ({
+    getTodos: builder.query<Todo[], void>({
+      query: () => '/todos',
+      providesTags: (result) =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Todo' as const, id })), { type: 'Todo', id: 'LIST' }]
+          : [{ type: 'Todo', id: 'LIST' }],
+    }),
+    getTodo: builder.query<Todo, number>({
+      query: (id) => `/todos/${id}`,
+      providesTags: (_result, _error, id) => [{ type: 'Todo', id }],
+    }),
+    addTodo: builder.mutation<Todo, Partial<Todo>>({
+      query: (todo) => ({
+        url: '/todos',
+        method: 'POST',
+        body: todo,
+      }),
+      invalidatesTags: [{ type: 'Todo', id: 'LIST' }],
+    }),
+    updateTodo: builder.mutation<Todo, Partial<Todo> & Pick<Todo, 'id'>>({
+      query: ({ id, ...patch }) => ({
+        url: `/todos/${id}`,
+        method: 'PUT',
+        body: patch,
+      }),
+      invalidatesTags: (_result, _error, { id }) => [{ type: 'Todo', id }],
+    }),
+    deleteTodo: builder.mutation<{ success: boolean }, number>({
+      query: (id) => ({
+        url: `/todos/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_result, _error, id) => [
+        { type: 'Todo', id },
+        { type: 'Todo', id: 'LIST' },
+      ],
+    }),
+  }),
+})
+
+export const { useGetTodosQuery, useGetTodoQuery, useAddTodoMutation, useUpdateTodoMutation, useDeleteTodoMutation } =
+  todoApiSlice

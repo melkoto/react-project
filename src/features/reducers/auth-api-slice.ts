@@ -5,7 +5,7 @@ import { User } from '../../types/user.ts'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_BASE_URL,
-  credentials: 'include', // важно для передачи куки
+  credentials: 'include',
   prepareHeaders: (headers) => {
     const csrfToken = Cookies.get('csrfToken')
     if (csrfToken) {

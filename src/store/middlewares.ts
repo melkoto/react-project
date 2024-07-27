@@ -1,4 +1,4 @@
 import { apiAuthSlice } from '../features/reducers/auth-api-slice.ts'
-import { userSlice } from '../features/reducers/user-slice.ts'
+import { todoApiSlice } from '../features/reducers/todo-api-slice.ts'
 
-export const middlewares = [userSlice.middleware, apiAuthSlice.middleware]
+export const middlewares = [apiAuthSlice.middleware, todoApiSlice.middleware]

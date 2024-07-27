@@ -1,10 +1,21 @@
-import React, { useState } from 'react'
+import { FormEvent, useState } from 'react'
 
-const AddTodo: React.FC = () => {
+import { useAddTodoMutation } from '../../reducers/todo-api-slice'
+
+const AddTodo = () => {
   const [title, setTitle] = useState('')
+  const [addTodo] = useAddTodoMutation()
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    if (title.trim()) {
+      await addTodo({ title }).unwrap()
+      setTitle('')
+    }
+  }
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <input
         style={{ marginRight: '10px' }}
         type="text"

@@ -1,17 +1,30 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import { Todo } from '../../../types/todo.ts'
+import { Todo } from '../../../types/todo'
+import { useDeleteTodoMutation, useUpdateTodoMutation } from '../../reducers/todo-api-slice'
 
 interface TodoItemProps {
   todo: Todo
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
+const TodoItem = ({ todo }: TodoItemProps) => {
   const [isEditing, setIsEditing] = useState(false)
   const [editTitle, setEditTitle] = useState(todo.title)
+  const [updateTodo] = useUpdateTodoMutation()
+  const [deleteTodo] = useDeleteTodoMutation()
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
+    if (editTitle.trim() && editTitle !== todo.title) {
+      await updateTodo({
+        id: todo.id,
+        title: editTitle,
+      }).unwrap()
+    }
     setIsEditing(false)
+  }
+
+  const handleDelete = async () => {
+    await deleteTodo(todo.id).unwrap()
   }
 
   return (
@@ -32,10 +45,17 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           {todo.title}
         </span>
       )}
-      <button style={{ marginRight: '10px', backgroundColor: 'green', color: 'white' }}>
+      <button
+        style={{ marginRight: '10px', backgroundColor: 'green', color: 'white' }}
+        onClick={async () => {
+          await updateTodo({ id: todo.id, completed: !todo.completed })
+        }}
+      >
         {todo.completed ? 'Undo' : 'Complete'}
       </button>
-      <button style={{ backgroundColor: 'red', color: 'white' }}>Delete</button>
+      <button style={{ backgroundColor: 'red', color: 'white' }} onClick={handleDelete}>
+        Delete
+      </button>
     </div>
   )
 }
