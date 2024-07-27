@@ -1,12 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { userSlice } from '../features/reducers/user-slice.ts'
-
+import { middlewares } from './middlewares.ts'
 import { rootReducer } from './root-reducer.ts'
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userSlice.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middlewares),
 })
 
 export type RootState = ReturnType<typeof store.getState>
