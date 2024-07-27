@@ -1,5 +1,5 @@
-import AddTodo from '../todos/add-todo'
-import TodoList from '../todos/todo-list'
+import AddTodo from '../../components/todos/add-todo.tsx'
+import TodoList from '../../components/todos/todo-list.tsx'
 
 const Home = () => {
   return (

@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react'
 
-import { useAppSelector } from '../../../hooks/redux'
-import { useAddTodoMutation } from '../../reducers/todo-api-slice'
+import { useAddTodoMutation } from '../../features/todo/todo-api-slice.ts'
+import { useAppSelector } from '../../hooks/redux.ts'
 
 const AddTodo = () => {
   const [title, setTitle] = useState('')
@@ -10,9 +10,9 @@ const AddTodo = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (title.trim()) {
+    if (title.trim() && user) {
       try {
-        await addTodo({ title, userId: user?.id }).unwrap()
+        await addTodo({ title, userId: user.id }).unwrap()
         setTitle('')
       } catch (error) {
         console.error('Failed to add todo: ', error)

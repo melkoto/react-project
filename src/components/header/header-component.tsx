@@ -1,10 +1,10 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { apiAuthSlice, useLogoutMutation } from '../../reducers/auth-api-slice'
-import { clearUser } from '../../reducers/auth-slice'
-import { apiTodoSlice } from '../../reducers/todo-api-slice.ts'
+import { useLogoutMutation } from '../../features/auth/auth-api-slice.ts'
+import { clearUser } from '../../features/auth/auth-slice.ts'
+import { apiTodoSlice } from '../../features/todo/todo-api-slice.ts'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux.ts'
 
 const Header: React.FC = () => {
   const navigate = useNavigate()
@@ -16,7 +16,6 @@ const Header: React.FC = () => {
     try {
       await logout().unwrap()
       dispatch(clearUser())
-      dispatch(apiAuthSlice.util.resetApiState())
       dispatch(apiTodoSlice.util.resetApiState())
       navigate('/auth')
     } catch (err) {

@@ -1,9 +1,9 @@
 import { ReactNode, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux.ts'
-import { useFetchUserQuery } from '../../reducers/auth-api-slice'
-import { setLoading } from '../../reducers/auth-slice'
+import { useFetchUserQuery } from '../../features/auth/auth-api-slice.ts'
+import { setLoading } from '../../features/auth/auth-slice.ts'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux.ts'
 
 interface ProtectedRouteProps {
   children: ReactNode

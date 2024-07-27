@@ -1,7 +1,7 @@
-import { Todo } from '../../../types/todo'
-import { useGetTodosQuery } from '../../reducers/todo-api-slice'
+import { useGetTodosQuery } from '../../features/todo/todo-api-slice.ts'
+import { Todo } from '../../types/todo.ts'
 
-import TodoItem from './todo-item'
+import TodoItem from './todo-item.tsx'
 
 const TodoList = () => {
   const { data: todos, error, isLoading } = useGetTodosQuery()

@@ -10,6 +10,7 @@ const baseQuery = fetchBaseQuery({
 export const apiAuthSlice = createApi({
   reducerPath: 'apiAuth',
   baseQuery,
+  tagTypes: ['User', 'Todos'],
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (user) => ({
@@ -17,6 +18,7 @@ export const apiAuthSlice = createApi({
         method: 'POST',
         body: user,
       }),
+      invalidatesTags: ['User', 'Todos'],
     }),
     login: builder.mutation({
       query: (credentials) => ({
@@ -24,15 +26,18 @@ export const apiAuthSlice = createApi({
         method: 'POST',
         body: credentials,
       }),
+      invalidatesTags: ['User', 'Todos'],
     }),
     logout: builder.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',
         method: 'POST',
       }),
+      invalidatesTags: ['User', 'Todos'],
     }),
     fetchUser: builder.query<User, void>({
       query: () => '/auth/me',
+      providesTags: ['User'],
     }),
   }),
 })

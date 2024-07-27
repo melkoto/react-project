@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-import { useAppSelector } from '../../../hooks/redux'
-import { Todo } from '../../../types/todo'
-import { useDeleteTodoMutation, useUpdateTodoMutation } from '../../reducers/todo-api-slice'
+import { useDeleteTodoMutation, useUpdateTodoMutation } from '../../features/todo/todo-api-slice.ts'
+import { useAppSelector } from '../../hooks/redux.ts'
+import { Todo } from '../../types/todo.ts'
 
 interface TodoItemProps {
   todo: Todo
