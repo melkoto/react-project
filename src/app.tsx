@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 
 import Login from './features/components/auth/login-component'
-import ProtectedRoute from './features/components/auth/protected-route'
+import ProtectedRoutes from './features/components/auth/protected-routes'
 import Register from './features/components/auth/register-component'
 import Home from './features/components/home/home-component'
 
@@ -11,14 +11,9 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/" element={<Home />} />
+        </Route>
       </Routes>
     </div>
   )

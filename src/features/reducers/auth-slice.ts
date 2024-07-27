@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { User } from '../../types/user.ts'
+import { User } from '../../types/user'
 
 import { apiAuthSlice } from './auth-api-slice'
 
@@ -31,6 +31,9 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addMatcher(apiAuthSlice.endpoints.fetchUser.matchPending, (state) => {
+      state.loading = true
+    })
     builder.addMatcher(apiAuthSlice.endpoints.fetchUser.matchFulfilled, (state, { payload }) => {
       state.user = payload
       state.loading = false
