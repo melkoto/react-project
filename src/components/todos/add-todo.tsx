@@ -27,6 +27,7 @@ const AddTodo = () => {
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        name="title"
         placeholder="Add new todo"
       />
       <button type="submit" style={{ background: 'blue', color: 'white' }} disabled={isAdding}>
